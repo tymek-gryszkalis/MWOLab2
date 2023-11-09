@@ -27,9 +27,9 @@ def init():
 
         c.execute("""CREATE TABLE IF NOT EXISTS "order" (
                 ID INTEGER PRIMARY KEY,
-                client_id INTEGER,
-                product_list TEXT,
-                order_status TEXT CHECK(order_status IN ('pending', 'finished')),
+                ClientID INTEGER,
+                ProductList TEXT,
+                OrderStatus TEXT CHECK(order_status IN ('pending', 'finished')),
                 FOREIGN KEY(client_id) REFERENCES client(ID)
                 )""")
         print("order table initiated.")
@@ -66,4 +66,22 @@ def insert(table, values):
     con.commit()
     con.close()
 
-    
+def delete(table, id):
+    con = sl.connect("database.db")
+    c = con.cursor()
+
+    c.execute("DELETE FROM " + table + " WHERE ID = " + str(id))
+
+    con.commit()
+    con.close()
+
+def update(table, values, id):
+    con = sl.connect("database.db")
+    c = con.cursor()
+
+    atbs = str(list(values.keys()))[1:-1].replace("\'", "")
+    vals = str(list(values.values()))[1:-1]
+    c.execute("UPDATE " + table + " SET (" + atbs + ") = (" + vals + ") WHERE ID =" + str(id))
+
+    con.commit()
+    con.close()
