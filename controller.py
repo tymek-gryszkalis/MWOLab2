@@ -32,3 +32,36 @@ def addProduct(name, price, magstate):
 def addOrders(clientID, productList, status):
     d = {"ClientID" : clientID, "ProductList" : ",".join(productList), "OrderStatus" : status}
     db.insert("order", d)
+
+def removeClient(id):
+    db.delete("client", id)
+
+def removeProduct(id):
+    db.delete("product", id)
+
+def removeOrder(id):
+    db.delete("product", id)
+
+def updateClient(id, name = "", surname = "", email = ""):
+    d = {"Name" : name, "Surname" : surname, "Email" : email}
+    for i in d:
+        if d[i] == "":
+            d.pop(i)
+    db.update("client", d, id)
+
+def updateProduct(id, name = "", price = "", magstate = ""):
+    d = {"Name" : name, "Price" : price, "MagazineState" : magstate}
+    for i in d:
+        if d[i] == "":
+            d.pop(i)
+    db.update("product", d, id)
+
+def updateOrder(id, clientID = "", productList = "", status = ""):
+    d = {"ClientID" : clientID, "ProductList" : ",".join(productList), "OrderStatus" : status}
+    for i in d:
+        if d[i] == "":
+            d.pop(i)
+    db.update("order", d, id)
+    
+
+    
