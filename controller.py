@@ -21,4 +21,14 @@ def getAllProducts():
 def getAllOrders():
     return db.select("order", all = True)
 
+def addClient(name, surname, email):
+    d = {"Name" : name, "Surname" : surname, "Email" : email}
+    db.insert("client", d)
 
+def addProduct(name, price, magstate):
+    d = {"Name" : name, "Price" : price, "MagazineState" : magstate}
+    db.insert("product", d)
+
+def addOrders(clientID, productList, status):
+    d = {"ClientID" : clientID, "ProductList" : ",".join(productList), "OrderStatus" : status}
+    db.insert("order", d)
