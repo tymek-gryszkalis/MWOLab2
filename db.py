@@ -20,6 +20,7 @@ def init():
 
         c.execute("""CREATE TABLE IF NOT EXISTS product (
                 ID INTEGER PRIMARY KEY,
+                Name VARCHAR,
                 Price INTEGER,
                 MagazineState INTEGER
                 )""")
@@ -28,27 +29,27 @@ def init():
         c.execute("""CREATE TABLE IF NOT EXISTS "order" (
                 ID INTEGER PRIMARY KEY,
                 ClientID INTEGER,
-                ProductList TEXT,
-                OrderStatus TEXT CHECK(order_status IN ('pending', 'finished')),
-                FOREIGN KEY(client_id) REFERENCES client(ID)
+                ProductList VARCHAR,
+                OrderStatus VARCHAR CHECK(OrderStatus IN ('pending', 'finished')),
+                FOREIGN KEY(ClientID) REFERENCES client(ID)
                 )""")
         print("order table initiated.")
 
         print("all orders initiated")
-    except:
+    except EOFError:
         print("Error in initiating tables")
     
     con.commit()
     con.close()
 
-def select(table, id=-1, all=False):
+def select(table, all=False, check = "ID", by = ""):
     con = sl.connect("database.db")
     c = con.cursor()
 
     if all:
         res = c.execute("SELECT * FROM " + table).fetchall()
     else:
-        res = c.execute("SELECT * FROM " + table + " WHERE ID = " + str(id)).fetchall()
+        res = c.execute("SELECT * FROM \"" + table + "\" WHERE " + check + " = " + str(by)).fetchall()
     
     con.commit()
     con.close()
